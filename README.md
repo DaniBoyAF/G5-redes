@@ -41,3 +41,11 @@ python client.py
 * Usa localhost (`127.0.0.1`) e porta 5000.
 * Pode-se alterar `modo_operacao` e `tamanho_maximo` no cliente.
 * Base para implementar protocolos mais complexos ou transferência confiável de dados.
+
+4. Integrantes .
+* João Pedro Patriota 
+* Mateus Dornelas
+* Jarbas Esteves
+* Daniel Andrade
+* Thiago Brayner
+* Luis Antonio Godoy
