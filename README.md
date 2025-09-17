@@ -1,4 +1,4 @@
-# Projeto Socket TCP – Handshake Cliente/Servidor
+# Projeto Redes
 
 Este projeto demonstra uma simples comunicação cliente-servidor usando **sockets TCP** em Python, implementando um **handshake inicial**.
 
