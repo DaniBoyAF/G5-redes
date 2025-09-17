@@ -42,10 +42,11 @@ python client.py
 * Pode-se alterar `modo_operacao` e `tamanho_maximo` no cliente.
 * Base para implementar protocolos mais complexos ou transferência confiável de dados.
 
-4. Integrantes .
-* João Pedro Patriota 
+## Integrantes
+
+* João Pedro Patriota
 * Mateus Dornelas
 * Jarbas Esteves
 * Daniel Andrade
 * Thiago Brayner
-* Luis Antonio Godoy
+* Luis Antônio Godoy
