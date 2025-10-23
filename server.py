@@ -1,24 +1,36 @@
 import socket
 
-HOST = "127.0.0.1"  # localhost
-PORT = 5000         # porta do servidor
+HOST = "127.0.0.1"  # IP local
+PORT = 5000         # Porta de conexão
 
-# cria socket TCP
+# Cria o socket TCP
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind((HOST, PORT))
 server_socket.listen()
 
 print(f"Servidor escutando em {HOST}:{PORT}...")
 
+# Aceita a conexão do cliente
 conn, addr = server_socket.accept()
 print(f"Conexão estabelecida com {addr}")
 
-# recebe handshake
+# Recebe a primeira mensagem (handshake)
 handshake = conn.recv(1024).decode()
 print("Handshake recebido:", handshake)
 
-# responde com confirmação
-conn.sendall("Handshake OK - servidor pronto".encode())
+# Responde ao handshake
+conn.sendall("Handshake OK - Canal sem erros estabelecido".encode())
+
+# Troca de mensagens confiável
+while True:
+    mensagem = conn.recv(1024).decode()
+    if mensagem.lower() == "sair":
+        print("Cliente encerrou a conexão.")
+        break
+
+    print(f"Mensagem recebida: {mensagem}")
+    resposta = f"Servidor recebeu com sucesso: {mensagem}"
+    conn.sendall(resposta.encode())
 
 conn.close()
 server_socket.close()
