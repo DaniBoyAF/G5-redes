@@ -1,6 +1,7 @@
 # Projeto Redes
 
-Este projeto demonstra uma simples comunicação cliente-servidor usando **sockets TCP** em Python, implementando um **handshake inicial**.
+Este projeto demonstra uma comunicação cliente-servidor usando **sockets TCP** em Python, implementando um **handshake inicial** e **troca de mensagens entre cliente e servidor** considerando um canal de comunicação erros e perdas não ocorrem.
+
 
 ## Arquivos
 
