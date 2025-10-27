@@ -1,6 +1,6 @@
 # Projeto Redes
 
-Este projeto demonstra uma comunicação cliente-servidor usando **sockets TCP** em Python, implementando um **handshake inicial** e **troca de mensagens entre cliente e servidor** considerando um canal de comunicação erros e perdas não ocorrem.
+Este projeto demonstra uma comunicação cliente-servidor usando sockets TCP em Python, implementando um handshake inicial e troca de mensagens entre cliente e servidor, considerando um canal de comunicação onde erros e perdas não ocorrem. Contendo criptografia e checagem de integridade na comunicação.
 
 
 ## Arquivos
@@ -27,24 +27,57 @@ Este projeto demonstra uma comunicação cliente-servidor usando **sockets TCP**
 * Encerra conexão quando usuário digita "sair".
 * Fecha a conexão.
 
+### servidor_erros.py e cliente_erros.py
+
+* Versões aprimoradas do cliente e servidor com criptografia e checagem de integridade.
+* Utilizam a biblioteca cryptography para garantir segurança na comunicação.
+* Implementam mecanismos de validação de dados recebidos para detectar e evitar corrupção de mensagens.
+* Mantêm a lógica de handshake e troca de mensagens confiável entre as partes.
+
 ## Como usar
 
-1. Execute o servidor:
+1. Instalar dependências, antes de executar as versões seguras, instale a biblioteca de criptografia:
+
+```bash
+pip install cryptography
+```
+
+---
+
+2. Execute o servidor:
 
 ```bash
 python server.py
 ```
 
-2. Execute o cliente em outro terminal:
+* Para a versão com segurança e checagem de integridade:
+
+```bash
+python servidor_erros.py
+```
+
+---
+
+3. Execute o cliente em outro terminal:
 
 ```bash
 python client.py
 ```
 
-3. Após o handshake inicial, digite mensagens no cliente para enviar ao servidor.
-4. O servidor responderá com confirmação de recebimento para cada mensagem.
-5. Digite "sair" no cliente para encerrar a conexão.
-6. Observe a comunicação entre cliente e servidor.
+* Para a versão com segurança e checagem de integridade:
+
+```bash
+python cliente_erros.py
+```
+
+---
+
+4. Interagir com o sistema
+
+* Após o handshake inicial, digite mensagens no cliente para enviar ao servidor.
+* O servidor responderá com confirmação de recebimento para cada mensagem.
+* Digite "sair" no cliente para encerrar a conexão.
+* Observe a comunicação e a verificação de integridade na versão segura.
 
 ## Observações
 
