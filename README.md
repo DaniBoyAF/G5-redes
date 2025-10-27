@@ -10,7 +10,10 @@ Este projeto demonstra uma simples comunicação cliente-servidor usando **socke
 * Aceita conexão de um cliente.
 * Recebe handshake do cliente.
 * Envia confirmação de recebimento.
-* Fecha a conexão.
+* Implementa troca de mensagens confiável em loop contínuo.
+* Processa mensagens do cliente e envia confirmações.
+* Encerra conexão quando cliente envia "sair".
+* Fecha a conexão e o socket do servidor.
 
 ### client.py
 
@@ -18,6 +21,9 @@ Este projeto demonstra uma simples comunicação cliente-servidor usando **socke
 * Prepara handshake com modo de operação e tamanho máximo.
 * Envia handshake ao servidor.
 * Recebe confirmação do servidor.
+* Implementa interface interativa para envio de mensagens.
+* Permite ao usuário digitar mensagens via input.
+* Encerra conexão quando usuário digita "sair".
 * Fecha a conexão.
 
 ## Como usar
@@ -34,12 +40,18 @@ python server.py
 python client.py
 ```
 
-3. Observe a comunicação entre cliente e servidor.
+3. Após o handshake inicial, digite mensagens no cliente para enviar ao servidor.
+4. O servidor responderá com confirmação de recebimento para cada mensagem.
+5. Digite "sair" no cliente para encerrar a conexão.
+6. Observe a comunicação entre cliente e servidor.
 
 ## Observações
 
 * Usa localhost (`127.0.0.1`) e porta 5000.
 * Pode-se alterar `modo_operacao` e `tamanho_maximo` no cliente.
+* Implementa comunicação bidirecional com confirmação de recebimento.
+* Interface interativa permite múltiplas mensagens até o encerramento.
+* Sistema de encerramento controlado com comando "sair".
 * Base para implementar protocolos mais complexos ou transferência confiável de dados.
 
 ## Integrantes
