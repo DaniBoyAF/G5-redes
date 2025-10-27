@@ -1,36 +1,45 @@
 import socket
+from seguranca import gerar_chave, descriptografar, verificar_integridade
 
-HOST = "127.0.0.1"  # IP local
-PORT = 5000         # Porta de conexão
+# ========================
+# CONFIGURAÇÃO DO SERVIDOR
+# ========================
+HOST = 'localhost'
+PORT = 5000
 
 # Cria o socket TCP
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind((HOST, PORT))
-server_socket.listen()
+server_socket.listen(1)
 
-print(f"Servidor escutando em {HOST}:{PORT}...")
+print(f"🔒 Servidor aguardando conexão em {HOST}:{PORT}...")
 
-# Aceita a conexão do cliente
+# Gera uma chave simétrica
+chave = gerar_chave()
+print(f"🗝️ Chave gerada (enviar ao cliente): {chave.decode()}")
+
+# Aguarda conexão
 conn, addr = server_socket.accept()
-print(f"Conexão estabelecida com {addr}")
+print(f"✅ Conectado com {addr}")
 
-# Recebe a primeira mensagem (handshake)
-handshake = conn.recv(1024).decode()
-print("Handshake recebido:", handshake)
+# Envia a chave para o cliente
+conn.send(chave)
 
-# Responde ao handshake
-conn.sendall("Handshake OK - Canal sem erros estabelecido".encode())
+# Recebe mensagem criptografada
+mensagem_criptografada = conn.recv(4096)
+hash_recebido = conn.recv(4096).decode()
 
-# Troca de mensagens confiável
-while True:
-    mensagem = conn.recv(1024).decode()
-    if mensagem.lower() == "sair":
-        print("Cliente encerrou a conexão.")
-        break
+# Descriptografa
+mensagem = descriptografar(mensagem_criptografada, chave)
 
-    print(f"Mensagem recebida: {mensagem}")
-    resposta = f"Servidor recebeu com sucesso: {mensagem}"
-    conn.sendall(resposta.encode())
+# Verifica integridade
+if verificar_integridade(mensagem, hash_recebido):
+    print(f"📩 Mensagem recebida com sucesso: {mensagem}")
+else:
+    print("⚠️ ERRO: Mensagem corrompida ou alterada!")
+
+# Envia confirmação
+conn.send("Mensagem recebida com segurança!".encode())
 
 conn.close()
 server_socket.close()
