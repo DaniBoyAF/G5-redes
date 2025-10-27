@@ -1,34 +1,28 @@
 import socket
-from seguranca import criptografar, gerar_hash
+from cryptography.fernet import Fernet
 
-# ========================
-# CONFIGURAÇÃO DO CLIENTE
-# ========================
-HOST = 'localhost'
+# Gera ou usa uma chave fixa (as duas partes devem ter a mesma)
+chave = Fernet.generate_key()
+cipher = Fernet(chave)
+
+HOST = "127.0.0.1"
 PORT = 5000
-
-# Cria o socket TCP
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect((HOST, PORT))
-print("✅ Conectado ao servidor!")
 
-# Recebe a chave do servidor
-chave = client_socket.recv(4096)
-print(f"🗝️ Chave recebida: {chave.decode()}")
+# Envia chave para o servidor
+client_socket.sendall(chave)
+print("Chave enviada para o servidor.")
 
-# Envia mensagem
-mensagem = input("Digite a mensagem para o servidor: ")
+while True:
+    msg = input("Mensagem (ou sair): ")
+    if msg.lower() == "sair":
+        break
 
-# Criptografa e gera hash
-mensagem_criptografada = criptografar(mensagem, chave)
-hash_msg = gerar_hash(mensagem)
+    criptografada = cipher.encrypt(msg.encode())
+    client_socket.sendall(criptografada)
 
-# Envia ao servidor
-client_socket.send(mensagem_criptografada)
-client_socket.send(hash_msg.encode())
-
-# Recebe resposta
-resposta = client_socket.recv(4096).decode()
-print(f"📨 Resposta do servidor: {resposta}")
+    resposta = client_socket.recv(1024)
+    print("Servidor respondeu:", cipher.decrypt(resposta).decode())
 
 client_socket.close()
